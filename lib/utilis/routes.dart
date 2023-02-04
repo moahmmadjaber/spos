@@ -4,10 +4,10 @@ import 'package:spos/Data/repository/login/login_repository.dart';
 import 'package:spos/business_logic/home/cubit/home_cubit.dart';
 import 'package:spos/business_logic/login/cubit/login_cubit.dart';
 import 'package:spos/presentation/home/home.dart';
-import 'package:spos/presentation/login/intro.dart';
+import 'package:spos/presentation/intro/intro.dart';
 import 'package:spos/presentation/notification/notification.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:spos/presentation/qr/login.dart';
+import 'package:spos/presentation/login/login.dart';
 import 'package:spos/presentation/splash/splash.dart';
 
 class Routes{

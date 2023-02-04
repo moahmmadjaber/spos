@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_loadingindicator/flutter_loadingindicator.dart';
 import 'utilis/routes.dart';
+import 'package:intl/date_symbol_data_local.dart';
 
 void main() {
   runApp(const MyApp());
@@ -65,6 +66,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    initializeDateFormatting('ar');
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       onGenerateRoute: RouteGenerator.getRoute,

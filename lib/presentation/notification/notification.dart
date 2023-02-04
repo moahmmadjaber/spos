@@ -4,7 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:spos/utilis/routes.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher.dart' as UrlLauncher;
 
 class NoificationPage extends StatefulWidget {
   const NoificationPage({Key? key}) : super(key: key);
@@ -14,31 +14,19 @@ class NoificationPage extends StatefulWidget {
 }
 
 class _NoificationPageState extends State<NoificationPage> {
-  String _phone = '6777';
-  bool _hasCallSupport = false;
   bool switchValue=true;
-  Future<void>? _launched;
 
   @override
   void initState() {
     super.initState();
     // Check for phone call support.
-    canLaunchUrl(Uri(scheme: 'tel', path: '123')).then((bool result) {
       setState(() {
-        _hasCallSupport = result;
-        print(result);
+
       });
-    });
-  }
+    }
 
 
-  Future<void> _makePhoneCall(String phoneNumber) async {
-    final Uri launchUri = Uri(
-      scheme: 'tel',
-      path: phoneNumber,
-    );
-    await launchUrl(launchUri);
-  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -63,7 +51,7 @@ class _NoificationPageState extends State<NoificationPage> {
               ),
 
             ),*/
-            SizedBox(height: 30,),
+            const SizedBox(height: 30,),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 25.0),
               child: Column(
@@ -75,9 +63,9 @@ class _NoificationPageState extends State<NoificationPage> {
                         decoration: BoxDecoration(
                             color: Colors.blue[600],
                             borderRadius: BorderRadius.circular(12)),
-                        padding: EdgeInsets.all(7),
+                        padding: const EdgeInsets.all(7),
                         child: IconButton(
-                          color: Colors.white, onPressed: () { Navigator.pushReplacementNamed(context, Routes.homeRoute);}, icon:Icon( Icons.arrow_back_ios_new, size: 28,),
+                          color: Colors.white, onPressed: () { Navigator.pop(context);}, icon:const Icon( Icons.arrow_back_ios_new, size: 28,),
                         ),
                       ),
                       // hi sponsor
@@ -98,16 +86,9 @@ class _NoificationPageState extends State<NoificationPage> {
                         decoration: BoxDecoration(
                             color: Colors.blue[600],
                             borderRadius: BorderRadius.circular(12)),
-                        padding: EdgeInsets.all(7),
+                        padding: const EdgeInsets.all(7),
                         child: IconButton(
-                          color: Colors.white, onPressed: () {
-                          _hasCallSupport
-                              ? () => setState(() {
-                            _launched = _makePhoneCall(_phone);
-                          })
-                              : null;
-
-                        }, icon:Icon( Icons.call, size: 28,),
+                          color: Colors.white, onPressed:  () =>   {UrlLauncher.launch("tel://6777") }, icon:const Icon( Icons.call, size: 28,),
                         ),
                       ),
                     ],
@@ -115,17 +96,17 @@ class _NoificationPageState extends State<NoificationPage> {
                 ],
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 50,
             ),
             Expanded(
               child: ClipRRect(
-                borderRadius: BorderRadius.only(
+                borderRadius: const BorderRadius.only(
                     topLeft: Radius.circular(50),
                     topRight: Radius.circular(50)),
                 child: Container(
                   color: Colors.grey[200],
-                  padding: EdgeInsets.all(25),
+                  padding: const EdgeInsets.all(25),
                   child: Column(
                     children: [
                       //heading
@@ -142,7 +123,7 @@ class _NoificationPageState extends State<NoificationPage> {
                           )
                         ],
                       ),
-                      SizedBox(height: 20,),
+                      const SizedBox(height: 20,),
                       //listview
                       Container(
                         height: 300,
@@ -153,12 +134,6 @@ class _NoificationPageState extends State<NoificationPage> {
                         child:
                         Visibility(
                           visible: false,
-                          child: ListTile(horizontalTitleGap: 20,
-                            tileColor: Colors.lightBlue,
-                            leading: Icon(Icons.info_outlined),
-                            title: Text('العنوان'),
-                            subtitle: Text('التفاصيل'),
-                          ),
                           replacement:  Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: const [ CardLoading(
@@ -178,6 +153,12 @@ class _NoificationPageState extends State<NoificationPage> {
                               borderRadius: BorderRadius.all(Radius.circular(15)),
                               margin: EdgeInsets.only(bottom: 10),
                             ),]
+                          ),
+                          child: const ListTile(horizontalTitleGap: 20,
+                            tileColor: Colors.lightBlue,
+                            leading: Icon(Icons.info_outlined),
+                            title: Text('العنوان'),
+                            subtitle: Text('التفاصيل'),
                           ),
 
                         )
