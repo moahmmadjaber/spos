@@ -98,15 +98,13 @@ class _HomeState extends State<Home> {
                         children: [
                           Text('مرحبا ${_userModel.first_name}',
                               style: const TextStyle(
-                                  color: Colors.white70,
-                                  fontSize: 20,
+                                  color: Colors.white,
+                                  fontSize: 30,
                                   fontWeight: FontWeight.w600)),
-                          const SizedBox(
-                            height: 8,
-                          ),
+
                           Text(
                             formattedDate,
-                            style: TextStyle(color: Colors.blue[200]),
+                            style: TextStyle(color: Colors.blue[200],fontSize: 20,fontWeight: FontWeight.bold),
                           )
                         ]),
 
@@ -130,9 +128,7 @@ class _HomeState extends State<Home> {
                         ),
                       ),
                     ),
-                    const Spacer(),
-                    IconButton(
-                        onPressed: logout, icon: const Icon(Icons.logout))
+
                   ],
                 ),
               ],

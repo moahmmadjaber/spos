@@ -92,38 +92,42 @@ class _LoginState extends State<Login> {
                   fontSize: 25,
                 ))),
       ),
-      body: Center(
-        child: Column(
-          children: <Widget>[
-            SizedBox(
-              height: MediaQuery.of(context).size.height * .7,
-              child: QRView(
-                key: _qrKey,
-                onQRViewCreated: _onQRViewCreated,
-                overlay: QrScannerOverlayShape(
-                  borderLength: h * 0.05,
-                  borderRadius: 10,
-                  borderColor: Colors.blueAccent,
-                  borderWidth: 10,
-                  cutOutSize: MediaQuery.of(context).size.width * .7,
+      body: Stack(
+        children:[ Center(
+          child: Column(
+            children: <Widget>[
+              SizedBox(
+                height: MediaQuery.of(context).size.height * .7,
+                child: QRView(
+                  key: _qrKey,
+                  onQRViewCreated: _onQRViewCreated,
+                  overlay: QrScannerOverlayShape(
+                    borderLength: h * 0.05,
+                    borderRadius: 10,
+                    borderColor: Colors.blueAccent,
+                    borderWidth: 10,
+                    cutOutSize: MediaQuery.of(context).size.width * .7,
+                  ),
                 ),
               ),
-            ),
-            Expanded(
-              flex: 1,
-              child: Center(
-                child: Text(
-                  'QR الرجاء قم بقرائة رمز',
-                  style: GoogleFonts.tajawal(
-                      fontWeight: FontWeight.bold,
-                      color: Colors.blueAccent,
-                      fontSize: 30),
-                  textAlign: TextAlign.center,
+              Expanded(
+                flex: 1,
+                child: Center(
+                  child: Text(
+                    'QR الرجاء قم بقرائة رمز',
+                    style: GoogleFonts.tajawal(
+                        fontWeight: FontWeight.bold,
+                        color: Colors.blueAccent,
+                        fontSize: 30),
+                    textAlign: TextAlign.center,
+                  ),
                 ),
-              ),
-            )
-          ],
+              )
+            ],
+          ),
         ),
+        Container(margin: EdgeInsets.only(top: h*0.21,left: w*0.21),child: Image.asset('assets/images/gray.png',color: Colors.white.withOpacity(0.1)),)]
+      
       ),
       // This trailing comma makes auto-formatting nicer for build methods.
     );

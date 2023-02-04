@@ -47,7 +47,6 @@ class RouteGenerator{
         return unDefinedRoute();
     }
   }
-
   static Route<dynamic> unDefinedRoute() {
     return MaterialPageRoute(
         builder: (_) => Scaffold(
