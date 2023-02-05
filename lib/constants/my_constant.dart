@@ -100,11 +100,11 @@ Widget failed(callBack) {
           icon: const Icon(
             Icons.refresh,
             size: 24.0,
-            color: MyColor.colorMain,
+            color: MyColor.colorLightBlue
           ),
           label: const Text(
             'اعادة المحاولة',
-            style: TextStyle(color: MyColor.colorMain),
+            style: TextStyle(color: MyColor.colorLightBlue),
           ),
         ),
       )

@@ -1,162 +1,142 @@
-import 'dart:async';
-import 'dart:io';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_loadingindicator/flutter_loadingindicator.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:qr_code_scanner/qr_code_scanner.dart';
-import 'package:spos/business_logic/login/cubit/login_cubit.dart';
-import 'package:spos/constants/enum_constant.dart';
-import 'package:spos/constants/my_constant.dart';
+import 'package:spos/constants/app_strings.dart';
+import 'package:spos/constants/my_color.dart';
+import 'package:spos/utilis/cliper_shaip.dart';
 import 'package:spos/utilis/routes.dart';
-import 'package:spos/utilis/shared_pref.dart';
-
+import 'package:flutter/services.dart';
+import 'package:spos/widgets/gradient_ball.dart';
+import 'package:blurrycontainer/blurrycontainer.dart';
+import 'package:easy_localization/easy_localization.dart';
+import 'package:spos/widgets/my_button.dart';
 class Login extends StatefulWidget {
-  const Login({super.key, title});
+  const Login({super.key});
 
   @override
-  State<Login> createState() => _LoginState();
+  _LoginState createState() => _LoginState();
 }
 
 class _LoginState extends State<Login> {
-  int counter = 0;
-  final _qrKey = GlobalKey<FormState>(debugLabel: 'QR');
-  Barcode? result;
-  QRViewController? controller;
-
-  @override
-  void dispose() {
-    controller?.dispose();
-    super.dispose();
-  }
-
-  @override
-  void reassemble() {
-    super.reassemble();
-    if (Platform.isAndroid) {
-      controller!.pauseCamera();
-    } else if (Platform.isIOS) {
-      controller!.resumeCamera();
-    }
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    SystemChrome.setPreferredOrientations([
-      DeviceOrientation.portraitUp,
-    ]);
-  }
-
   @override
   Widget build(BuildContext context) {
-    return BlocListener<LoginCubit, LoginState>(
-        listener: (context, state) async {
-          if (state is LoginInitial) {
-            controller?.resumeCamera();
-            form();
-          } else if (state is LoginLoading) {
-            form();
-          } else if (state is LoginComplete) {
-            EasyLoading.dismiss();
-            showToast('تم التسجبل', ToastType.success);
-            if (state.model.status == false) {
-              showToast('رقم المحسن غير صحيح', ToastType.error);
-            } else {
-              await SharedPref.setUser(result!.code,
-                  state.model.first_name.toString(), state.model.status);
-              Navigator.pushReplacementNamed(context, Routes.homeRoute);
-            }
-          } else if (state is LoginError) {
-            controller?.resumeCamera();
-            showToast(state.err, ToastType.error);
-            form();
-          }
-        },
-        child: form());
-  }
-
-  Widget form() {
-    double h = MediaQuery.of(context).size.height;
-    double w = MediaQuery.of(context).size.width;
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.white30,
-        title: Center(
-            child: Text('مؤسسة العين للرعاية الاجتماعية',
-                style: GoogleFonts.tajawal(
-                  color: Colors.blueAccent,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 25,
-                ))),
-      ),
-      body: Stack(
-        children:[ Center(
-          child: Column(
-            children: <Widget>[
-              SizedBox(
-                height: MediaQuery.of(context).size.height * .7,
-                child: QRView(
-                  key: _qrKey,
-                  onQRViewCreated: _onQRViewCreated,
-                  overlay: QrScannerOverlayShape(
-                    borderLength: h * 0.05,
-                    borderRadius: 10,
-                    borderColor: Colors.blueAccent,
-                    borderWidth: 10,
-                    cutOutSize: MediaQuery.of(context).size.width * .7,
-                  ),
+        body: SafeArea(
+            child: Stack(children: [
+              const Positioned(
+                top: 50,
+                left: 10,
+                child: GradientBall(
+                  colors: [
+                    MyColor.colorPrimary,
+                    MyColor.colorPrimary2,
+                  ],
+                  size: Size.square(120),
                 ),
               ),
-              Expanded(
-                flex: 1,
-                child: Center(
-                  child: Text(
-                    'QR الرجاء قم بقرائة رمز',
-                    style: GoogleFonts.tajawal(
-                        fontWeight: FontWeight.bold,
-                        color: Colors.blueAccent,
-                        fontSize: 30),
-                    textAlign: TextAlign.center,
-                  ),
+              Positioned(
+                top: 20,
+                left: MediaQuery
+                    .of(context)
+                    .size
+                    .width - 80,
+                child: const GradientBall(
+                  colors: [
+                    MyColor.colorLightBlue,
+                    MyColor.colorTeal
+                  ],
+                  size: Size.square(100),
                 ),
-              )
-            ],
-          ),
-        ),
-        Container(margin: EdgeInsets.only(top: h*0.21,left: w*0.21),child: Image.asset('assets/images/gray.png',color: Colors.white.withOpacity(0.1)),)]
-      
-      ),
-      // This trailing comma makes auto-formatting nicer for build methods.
+              ),
+              Positioned(
+                top: 310,
+                left: MediaQuery
+                    .of(context)
+                    .size
+                    .width - 160,
+                child: GradientBall(
+                  colors: [
+                    MyColor.deepWhite,
+                    MyColor.colorBlueAccent
+                  ],
+                  size: const Size.square(150),
+                ),
+              ),
+              BlurryContainer(
+                blur: 9,
+                width: double.infinity,
+                height: double.infinity,
+                elevation: 0,
+                color: Colors.transparent,
+                child: Container(),
+              ),
+              Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    const SizedBox(
+                      height: 40,
+                    ),
+                    const Image(
+                        image: AssetImage('assets/images/logo.png'),
+                        height: 200),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 24),
+                      child:const Text(
+                        AppStrings.howTitleLogin,
+                        textAlign: TextAlign.right,
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20,
+                        ),
+                      ).tr() ,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 24),
+                      child:const Text(
+                        AppStrings.howContentLogin,
+                        textAlign: TextAlign.right,
+                        style: TextStyle(
+                          fontWeight: FontWeight.normal,
+                          fontSize: 15,
+                          color: MyColor.colorBlack,),
+                      ).tr(),
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 24),
+                      child: MyButton(
+                        text: const Text(
+                          AppStrings.btnLogin,
+                          style: TextStyle(color: MyColor.colorWhite, fontSize: 18),
+                        ).tr(),
+                        color:  MyColor.colorPrimary,
+                        icon: Icons.qr_code,
+                        iconColor: MyColor.colorWhite,
+                        onPressed: (){
+                          Navigator.of(context).pushNamedAndRemoveUntil(Routes.qrRoute, (route) => false);
+                        },
+                      ),
+                    )
+                  ]
+              ),
+              Align(
+                  alignment: Alignment.bottomCenter,
+                  child: SizedBox(
+                    height: 250,
+                    child: ClipPath(
+                      clipper: ClipperShape(),
+                      child: Container(
+                        color: MyColor.colorPrimary,
+                      ),
+                    ),
+                  )),
+            ]
+            )
+        )
     );
-  }
-
-  void _onQRViewCreated(QRViewController controller) {
-    this.controller = controller;
-    if (counter == 0) {
-      startup(counter);
-    }
-
-    controller.scannedDataStream.listen((scanData) {
-      setState(() {
-        result = scanData;
-        if (result != null) {
-          controller.pauseCamera();
-          BlocProvider.of<LoginCubit>(context).login(result!.code);
-          showToast('يرجى الانتظار', ToastType.load);
-        }
-      });
-    });
-  }
-
-  Future<int> startup(counter) async {
-    {
-      counter = counter + 1;
-      controller?.pauseCamera();
-      controller?.resumeCamera();
-      return counter;
-    }
   }
 }

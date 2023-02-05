@@ -16,14 +16,14 @@ class _SplashState extends State<Splash> with TickerProviderStateMixin {
   Timer? _timer;
 
   _startDelay() {
-    _timer = Timer(const Duration(milliseconds: 4900), _goNext);
+    _timer = Timer(const Duration(milliseconds: 5000), _goNext);
   }
 
   void _goNext() async {
     if (await SharedPref.haveLogin()) {
       Navigator.pushReplacementNamed(context, Routes.homeRoute);
     } else {
-      Navigator.pushReplacementNamed(context, Routes.IntroRoute);
+      Navigator.pushReplacementNamed(context, Routes.loginRoute);
     }
   }
 
