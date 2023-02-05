@@ -3,20 +3,15 @@ import 'package:flutter_loadingindicator/flutter_loadingindicator.dart';
 import 'utilis/routes.dart';
 import 'package:intl/date_symbol_data_local.dart';
 
-void main() {
-  runApp(const MyApp());
+void main() {runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+    return const MaterialApp(debugShowCheckedModeBanner: false,
+      home: MyHomePage(title: 'Flutter Demo Home Page'),
     );
   }
 }
