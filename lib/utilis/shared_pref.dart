@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:spos/constants/enum_constant.dart';
 
@@ -69,5 +70,23 @@ class SharedPref{
     prefs.remove('first_name');
     prefs.remove('status');
 
+  }
+  static Future<String>getLanguage() async{
+    final SharedPreferences prefs =await SharedPreferences.getInstance();
+    String? language =prefs.getString('current_language');
+    return language ?? "ar";
+  }
+  static Future<void>changeAppLanguage()async{
+    final SharedPreferences prefs =await SharedPreferences.getInstance();
+    String language = await getLanguage();
+    prefs.setString('current_language', language == "en"?"ar":"en");
+  }
+  static Future<Locale>getLocal()async{
+    String language =await getLanguage();
+    if(language=="ar"){
+      return const Locale("ar","IQ");
+    }else {
+      return const Locale("en", "US");
+    }
   }
 }

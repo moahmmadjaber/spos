@@ -5,13 +5,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_loadingindicator/flutter_loadingindicator.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:spos/business_logic/login/cubit/login_cubit.dart';
+import 'package:spos/constants/app_strings.dart';
 import 'package:spos/constants/enum_constant.dart';
+import 'package:spos/constants/my_color.dart';
 import 'package:spos/constants/my_constant.dart';
+import 'package:spos/utilis/cliper_shaip.dart';
 import 'package:spos/utilis/routes.dart';
 import 'package:spos/utilis/shared_pref.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class Qr extends StatefulWidget {
   const Qr({super.key, title});
@@ -79,57 +82,68 @@ class _QrState extends State<Qr> {
   }
 
   Widget form() {
-    double h = MediaQuery.of(context).size.height;
-    double w = MediaQuery.of(context).size.width;
+    double h=MediaQuery.of(context).size.height < 400? 150:
+    MediaQuery.of(context).size.height;
+    double w=MediaQuery.of(context).size.width < 400? 150:
+    MediaQuery.of(context).size.width;
+
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.white30,
-        title: Center(
-            child: Text('مؤسسة العين للرعاية الاجتماعية',
-                style: GoogleFonts.tajawal(
-                  color: Colors.blueAccent,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 25,
-                ))),
-      ),
-      body: Stack(
-        children:[ Center(
-          child: Column(
-            children: <Widget>[
-              SizedBox(
-                height: MediaQuery.of(context).size.height * .7,
-                child: QRView(
-                  key: _qrKey,
-                  onQRViewCreated: _onQRViewCreated,
-                  overlay: QrScannerOverlayShape(
-                    borderLength: h * 0.05,
-                    borderRadius: 10,
-                    borderColor: Colors.blueAccent,
-                    borderWidth: 10,
-                    cutOutSize: MediaQuery.of(context).size.width * .7,
-                  ),
-                ),
-              ),
-              Expanded(
-                flex: 1,
-                child: Center(
-                  child: Text(
-                    'QR الرجاء قم بقرائة رمز',
-                    style: GoogleFonts.tajawal(
-                        fontWeight: FontWeight.bold,
-                        color: Colors.blueAccent,
-                        fontSize: 30),
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-              )
-            ],
-          ),
-        ),
-        Container(margin: EdgeInsets.only(top: h*0.21,left: w*0.21),child: Image.asset('assets/images/gray.png',color: Colors.white.withOpacity(0.1)),)]
-      
-      ),
-      // This trailing comma makes auto-formatting nicer for build methods.
+        body: SafeArea(
+            child: Stack(
+              children: [
+                _buildQrView(context),
+                Align(
+                    alignment: Alignment.bottomCenter,
+                    child: SizedBox(
+                      height: 150,
+                      child: ClipPath(
+                        clipper: ClipperShape(),
+                        child: Container(
+                          width: double.infinity,
+                          alignment: Alignment.bottomCenter,
+                          color: MyColor.colorPrimary,
+                          child: const Text(
+                            AppStrings.qrInstructions,
+                            style:  TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: MyColor.colorWhite,
+                              fontSize: 16,
+                            ),
+                          ).tr(),
+                        ),
+                      ),
+                    )),
+
+                Container(alignment: Alignment.center,child: Image.asset('assets/images/gray.png',height: h,width: w,color: Colors.white.withOpacity(0.15)),) ],
+            )
+        )
+    );
+  }
+
+  // This trailing comma makes auto-formatting nicer for build methods.
+  Widget _buildQrView(BuildContext context) {
+    // For this example we check how width or tall the device is and change the scanArea and overlay accordingly.
+    var scanArea = (MediaQuery
+        .of(context)
+        .size
+        .width < 400 ||
+        MediaQuery
+            .of(context)
+            .size
+            .height < 400)
+        ? 150.0
+        : 300.0;
+    // To ensure the Scanner view is properly sizes after rotation
+    // we need to listen for Flutter SizeChanged notification and update controller
+    return QRView(
+      key: _qrKey,
+      onQRViewCreated: _onQRViewCreated,
+      overlay: QrScannerOverlayShape(
+          borderColor: MyColor.colorGreen,
+          borderRadius: 10,
+          borderLength: 30,
+          borderWidth: 10,
+          cutOutSize: scanArea),
     );
   }
 

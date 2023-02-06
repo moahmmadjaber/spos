@@ -81,6 +81,8 @@ flutter:
     - assets/translations/ar-IQ.json
     - assets/translations/en-US.json
     - assets/gif/splash.gif
+    - assets/translations/ar-IQ.json
+    - assets/translations/en-US.json
 
   # An image assets can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
