@@ -23,7 +23,7 @@ class _SplashState extends State<Splash> with TickerProviderStateMixin {
     if (await SharedPref.haveLogin()) {
       Navigator.pushReplacementNamed(context, Routes.homeRoute);
     } else {
-      Navigator.pushReplacementNamed(context, Routes.loginRoute);
+      Navigator.of(context).pushNamedAndRemoveUntil(Routes.loginRoute,(route)=>false);
     }
   }
 

@@ -40,6 +40,7 @@ class _QrState extends State<Qr> {
     super.reassemble();
     if (Platform.isAndroid) {
       controller!.pauseCamera();
+      controller!.resumeCamera();
     } else if (Platform.isIOS) {
       controller!.resumeCamera();
     }
@@ -58,7 +59,6 @@ class _QrState extends State<Qr> {
     return BlocListener<LoginCubit, LoginState>(
         listener: (context, state) async {
           if (state is LoginInitial) {
-            controller?.resumeCamera();
             form();
           } else if (state is LoginLoading) {
             form();
@@ -69,7 +69,7 @@ class _QrState extends State<Qr> {
               showToast('رقم المحسن غير صحيح', ToastType.error);
             } else {
               await SharedPref.setUser(result!.code,
-                  state.model.first_name.toString(), state.model.status);
+                  state.model.first_name.toString(),state.model.token);
               Navigator.pushReplacementNamed(context, Routes.homeRoute);
             }
           } else if (state is LoginError) {
@@ -82,11 +82,8 @@ class _QrState extends State<Qr> {
   }
 
   Widget form() {
-    double h=MediaQuery.of(context).size.height < 400? 150:
-    MediaQuery.of(context).size.height;
-    double w=MediaQuery.of(context).size.width < 400? 150:
-    MediaQuery.of(context).size.width;
-
+    double h=MediaQuery.of(context).size.height;
+    double w=MediaQuery.of(context).size.width;
     return Scaffold(
         body: SafeArea(
             child: Stack(
@@ -114,7 +111,7 @@ class _QrState extends State<Qr> {
                       ),
                     )),
 
-                Container(alignment: Alignment.center,child: Image.asset('assets/images/gray.png',height: h,width: w,color: Colors.white.withOpacity(0.15)),) ],
+                Container(alignment:Alignment.center,margin:EdgeInsets.only(top: h*0.38,right: w*0.25),height: h*0.2,width: w*0.5,child: Image.asset('assets/images/gray.png',color: Colors.white.withOpacity(0.15),fit: BoxFit.fill,),) ],
             )
         )
     );

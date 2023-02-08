@@ -3,11 +3,11 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:spos/constants/enum_constant.dart';
 
 class SharedPref{
-  static Future<void> setUser(ID,firstName,status) async {
+  static Future<void> setUser(ID,firstName,token) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setString('ID', ID);
     await prefs.setString('first_name', firstName);
-    await prefs.setBool('status', status);
+    await prefs.setString('token', token);
   }
   static Future<void> setPathImgUsername(username,pathImg) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();

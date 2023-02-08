@@ -14,7 +14,7 @@ class LoginRepository {
         'result': result
       };
       final res = await api.callApi(
-          body, '/V1/api/f', sendToken: false);
+          body, 'V1/api/info', sendToken: false);
       if (res.isNotEmpty) {
         return UserModel.fromJson(json.decode(res));
       } else {

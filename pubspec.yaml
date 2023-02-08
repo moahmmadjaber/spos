@@ -55,6 +55,8 @@ dev_dependencies:
   device_preview: ^1.1.0
   blurrycontainer: ^1.0.2
   easy_localization: ^3.0.1
+  salomon_bottom_bar: ^3.3.1
+  icon_badge: ^1.0.0
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
   # activated in the `analysis_options.yaml` file located at the root of your
@@ -78,11 +80,13 @@ flutter:
     - assets/images/qr-scanning.json
     - assets/images/logo -2.png
     - assets/images/logo.png
+    - assets/images/gray.png
     - assets/translations/ar-IQ.json
     - assets/translations/en-US.json
     - assets/gif/splash.gif
     - assets/translations/ar-IQ.json
     - assets/translations/en-US.json
+
 
   # An image assets can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
@@ -95,11 +99,10 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the assets and other descriptors for the font. For
   # example:
-  # fonts:
-  #   - family: Schyler
-  #     fonts:
-  #       - assets: fonts/Schyler-Regular.ttf
-  #       - assets: fonts/Schyler-Italic.ttf
+  fonts:
+     - family: MyFlutterApp
+       fonts:
+         - asset: assets/fonts/MyFlutterApp.ttf
   #         style: italic
   #   - family: Trajan Pro
   #     fonts:
